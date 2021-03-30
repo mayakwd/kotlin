@@ -1,3 +1,5 @@
+// IGNORE_BACKEND_FIR: JVM_IR
+
 inline class IT(val x: Int)
 
 inline class InlineMutableSet(private val ms: MutableSet<IT>) : MutableSet<IT> {

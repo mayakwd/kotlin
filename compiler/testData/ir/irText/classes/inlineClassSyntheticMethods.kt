@@ -1,4 +1,5 @@
 // !LANGUAGE: +InlineClasses
+// IGNORE_BACKEND_FIR: JVM_IR
 
 class C<T>(val t: T) {
     override fun hashCode(): Int = t as Int
