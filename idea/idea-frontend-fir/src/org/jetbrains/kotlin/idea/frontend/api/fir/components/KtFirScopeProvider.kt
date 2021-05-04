@@ -58,7 +58,7 @@ internal class KtFirScopeProvider(
     private val memberScopeCache = IdentityHashMap<KtSymbolWithMembers, KtMemberScope>()
     private val declaredMemberScopeCache = IdentityHashMap<KtSymbolWithMembers, KtDeclaredMemberScope>()
     private val fileScopeCache = IdentityHashMap<KtFileSymbol, KtDeclarationScope<KtSymbolWithDeclarations>>()
-    private val packageMemberScopeCache = IdentityHashMap<KtPackageSymbol, KtPackageScope>()
+    private val packageMemberScopeCache = IdentityHashMap<KtPackageSymbol, KtFirPackageScope>()
 
     private inline fun <T> KtSymbolWithMembers.withFirForScope(crossinline body: (FirClass<*>) -> T): T? = when (this) {
         is KtFirNamedClassOrObjectSymbol -> firRef.withFir(FirResolvePhase.SUPER_TYPES, body)
@@ -107,7 +107,7 @@ internal class KtFirScopeProvider(
         }
     }
 
-    override fun getPackageScope(packageSymbol: KtPackageSymbol): KtPackageScope = withValidityAssertion {
+    override fun getPackageScope(packageSymbol: KtPackageSymbol): KtScope = withValidityAssertion {
         packageMemberScopeCache.getOrPut(packageSymbol) {
             val firPackageScope =
                 FirPackageMemberScope(

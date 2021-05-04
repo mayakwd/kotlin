@@ -11,7 +11,7 @@ import org.jetbrains.kotlin.idea.fir.low.level.api.api.searchScope
 import org.jetbrains.kotlin.idea.frontend.api.tokens.ValidityToken
 import org.jetbrains.kotlin.idea.frontend.api.fir.KtSymbolByFirBuilder
 import org.jetbrains.kotlin.idea.frontend.api.fir.utils.weakRef
-import org.jetbrains.kotlin.idea.frontend.api.scopes.KtPackageScope
+import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScope
 import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScopeNameFilter
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtCallableSymbol
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtClassifierSymbol
@@ -28,9 +28,9 @@ internal class KtFirPackageScope(
     private val project: Project,
     private val builder: KtSymbolByFirBuilder,
     override val token: ValidityToken,
-) : KtPackageScope {
+) : KtScope {
     private val firScope by weakRef(firScope)
-    override val fqName: FqName get() = firScope.fqName
+    private val fqName: FqName get() = firScope.fqName
 
     override fun getCallableNames() = withValidityAssertion {
         hashSetOf<Name>().apply {

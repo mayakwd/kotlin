@@ -18,7 +18,7 @@ abstract class KtScopeProvider : KtAnalysisSessionComponent() {
     abstract fun getMemberScope(classSymbol: KtSymbolWithMembers): KtMemberScope
     abstract fun getDeclaredMemberScope(classSymbol: KtSymbolWithMembers): KtDeclaredMemberScope
     abstract fun getFileScope(fileSymbol: KtFileSymbol): KtDeclarationScope<KtSymbolWithDeclarations>
-    abstract fun getPackageScope(packageSymbol: KtPackageSymbol): KtPackageScope
+    abstract fun getPackageScope(packageSymbol: KtPackageSymbol): KtScope
     abstract fun getCompositeScope(subScopes: List<KtScope>): KtScope
 
     abstract fun getTypeScope(type: KtType): KtScope?
@@ -39,7 +39,7 @@ interface KtScopeProviderMixIn : KtAnalysisSessionMixIn {
     fun KtFileSymbol.getFileScope(): KtDeclarationScope<KtSymbolWithDeclarations> =
         analysisSession.scopeProvider.getFileScope(this)
 
-    fun KtPackageSymbol.getPackageScope(): KtPackageScope =
+    fun KtPackageSymbol.getPackageScope(): KtScope =
         analysisSession.scopeProvider.getPackageScope(this)
 
     fun List<KtScope>.asCompositeScope(): KtScope =

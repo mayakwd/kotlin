@@ -53,10 +53,6 @@ interface KtDeclarationScope<out T : KtSymbolWithDeclarations> : KtScope {
     val owner: T
 }
 
-interface KtPackageScope : KtScope, KtSubstitutedScope<KtPackageScope> {
-    val fqName: FqName
-}
-
 interface KtUnsubstitutedScope<S : KtScope> : KtScope {
     fun substitute(/*substitution*/): KtSubstitutedScope<S> = TODO()
 }
