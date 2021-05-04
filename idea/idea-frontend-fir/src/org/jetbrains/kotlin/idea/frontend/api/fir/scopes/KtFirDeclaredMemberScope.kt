@@ -11,7 +11,6 @@ import org.jetbrains.kotlin.idea.frontend.api.ValidityTokenOwner
 import org.jetbrains.kotlin.idea.frontend.api.fir.KtSymbolByFirBuilder
 import org.jetbrains.kotlin.idea.frontend.api.fir.utils.weakRef
 import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScope
-import org.jetbrains.kotlin.idea.frontend.api.scopes.KtUnsubstitutedScope
 
 internal class KtFirDeclaredMemberScope(
     firScope: FirClassDeclaredMemberScope,
@@ -19,7 +18,6 @@ internal class KtFirDeclaredMemberScope(
     builder: KtSymbolByFirBuilder
 ) : KtFirDelegatingScope<FirClassDeclaredMemberScope>(builder, token),
     KtScope,
-    KtUnsubstitutedScope<KtFirDeclaredMemberScope>,
     ValidityTokenOwner {
     override val firScope: FirClassDeclaredMemberScope by weakRef(firScope)
 }
