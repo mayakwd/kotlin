@@ -42,10 +42,6 @@ interface KtScope : ValidityTokenOwner {
 typealias KtScopeNameFilter = (Name) -> Boolean
 
 
-interface KtDeclarationScope<out T : KtSymbolWithDeclarations> : KtScope {
-    val owner: T
-}
-
 interface KtUnsubstitutedScope<S : KtScope> : KtScope {
     fun substitute(/*substitution*/): KtSubstitutedScope<S> = TODO()
 }

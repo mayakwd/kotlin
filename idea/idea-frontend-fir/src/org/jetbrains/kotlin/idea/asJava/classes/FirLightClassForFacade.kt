@@ -22,7 +22,7 @@ import org.jetbrains.kotlin.idea.asJava.classes.createField
 import org.jetbrains.kotlin.idea.asJava.classes.createMethods
 import org.jetbrains.kotlin.idea.frontend.api.analyse
 import org.jetbrains.kotlin.idea.frontend.api.fir.analyzeWithSymbolAsContext
-import org.jetbrains.kotlin.idea.frontend.api.scopes.KtDeclarationScope
+import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScope
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtCallableSymbol
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtKotlinPropertySymbol
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtFunctionSymbol
@@ -104,7 +104,7 @@ class FirLightClassForFacade(
     }
 
     private fun loadFieldsFromFile(
-        fileScope: KtDeclarationScope<KtSymbolWithDeclarations>,
+        fileScope: KtScope,
         nameGenerator: FirLightField.FieldNameGenerator,
         result: MutableList<KtLightField>
     ) {

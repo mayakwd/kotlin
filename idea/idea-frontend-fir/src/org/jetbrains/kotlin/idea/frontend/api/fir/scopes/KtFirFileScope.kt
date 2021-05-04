@@ -13,7 +13,7 @@ import org.jetbrains.kotlin.idea.frontend.api.ValidityTokenOwner
 import org.jetbrains.kotlin.idea.frontend.api.fir.KtSymbolByFirBuilder
 import org.jetbrains.kotlin.idea.frontend.api.fir.symbols.KtFirFileSymbol
 import org.jetbrains.kotlin.idea.frontend.api.fir.utils.cached
-import org.jetbrains.kotlin.idea.frontend.api.scopes.KtDeclarationScope
+import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScope
 import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScopeNameFilter
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtCallableSymbol
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtClassifierSymbol
@@ -23,11 +23,10 @@ import org.jetbrains.kotlin.idea.frontend.api.withValidityAssertion
 import org.jetbrains.kotlin.name.Name
 
 internal class KtFirFileScope(
-    override val owner: KtFirFileSymbol,
+    val owner: KtFirFileSymbol,
     override val token: ValidityToken,
     private val builder: KtSymbolByFirBuilder
-) : KtDeclarationScope<KtSymbolWithDeclarations>,
-    ValidityTokenOwner {
+) : KtScope, ValidityTokenOwner {
 
     private val allNamesCached by cached {
         _callableNames + _classifierNames
