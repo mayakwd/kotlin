@@ -14,9 +14,9 @@ import org.jetbrains.kotlin.idea.frontend.api.tokens.ValidityToken
 import org.jetbrains.kotlin.name.Name
 
 internal class KtFirEmptyScope(override val token: ValidityToken) : KtScope {
-    override fun getCallableNames(): Set<Name> = emptySet()
+    override fun getPossibleCallableNames(): Set<Name> = emptySet()
 
-    override fun getClassifierNames(): Set<Name> = emptySet()
+    override fun getPossibleClassifierNames(): Set<Name> = emptySet()
 
     override fun getCallableSymbols(nameFilter: KtScopeNameFilter): Sequence<KtCallableSymbol> =
         emptySequence()
