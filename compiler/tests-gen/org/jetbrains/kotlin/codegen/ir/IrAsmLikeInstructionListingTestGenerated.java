@@ -140,6 +140,11 @@ public class IrAsmLikeInstructionListingTestGenerated extends AbstractIrAsmLikeI
             runTest("compiler/testData/codegen/asmLike/typeAnnotations/extension.kt");
         }
 
+        @TestMetadata("functionTypeParameter.kt")
+        public void testFunctionTypeParameter() throws Exception {
+            runTest("compiler/testData/codegen/asmLike/typeAnnotations/functionTypeParameter.kt");
+        }
+
         @TestMetadata("implicit.kt")
         public void testImplicit() throws Exception {
             runTest("compiler/testData/codegen/asmLike/typeAnnotations/implicit.kt");

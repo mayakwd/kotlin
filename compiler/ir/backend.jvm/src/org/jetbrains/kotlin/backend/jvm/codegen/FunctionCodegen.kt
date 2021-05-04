@@ -89,6 +89,41 @@ class FunctionCodegen(
                     )
                 }
             }.genAnnotations(irFunction, signature.asmMethod.returnType, irFunction.returnType)
+
+            irFunction.typeParameters.forEachIndexed { index, typeParameter ->
+                object : AnnotationCodegen(classCodegen, context, skipNullabilityAnnotations) {
+                    override fun visitAnnotation(descr: String?, visible: Boolean): AnnotationVisitor {
+                        return methodVisitor.visitTypeAnnotation(
+                            TypeReference.newTypeParameterReference(TypeReference.METHOD_FORMAL_PARAMETER, index).value,
+                            null,
+                            descr,
+                            visible
+                        )
+                    }
+
+                    override fun visitTypeAnnotation(descr: String?, path: TypePath?, visible: Boolean): AnnotationVisitor {
+                        throw RuntimeException("Not implemented")
+                    }
+                }.genAnnotations(typeParameter, null, null)
+
+                typeParameter.superTypes.forEachIndexed { superIndex, superType ->
+                    object : AnnotationCodegen(classCodegen, context, skipNullabilityAnnotations) {
+                        override fun visitAnnotation(descr: String?, visible: Boolean): AnnotationVisitor {
+                            throw RuntimeException("Not implemented")
+                        }
+
+                        override fun visitTypeAnnotation(descr: String?, path: TypePath?, visible: Boolean): AnnotationVisitor {
+                            return methodVisitor.visitTypeAnnotation(
+                                TypeReference.newTypeParameterBoundReference(TypeReference.METHOD_TYPE_PARAMETER_BOUND, index, superIndex).value,
+                                path,
+                                descr,
+                                visible
+                            )
+                        }
+                    }.generateTypeAnnotations(irFunction, superType)
+                }
+            }
+
             if (shouldGenerateAnnotationsOnValueParameters()) {
                 generateParameterAnnotations(irFunction, methodVisitor, signature, classCodegen, context, skipNullabilityAnnotations)
             }
