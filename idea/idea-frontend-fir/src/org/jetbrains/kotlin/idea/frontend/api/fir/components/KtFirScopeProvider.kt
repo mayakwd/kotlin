@@ -79,7 +79,7 @@ internal class KtFirScopeProvider(
                     ScopeSession(),
                     withForcedTypeCalculator = false
                 )
-            } ?: return@getOrPut KtFirEmptyScope(token)
+            } ?: return@getOrPut getEmptyScope()
 
             firScopeStorage.register(firScope)
             KtFirMemberScope(classSymbol, firScope, token, builder)
@@ -90,7 +90,7 @@ internal class KtFirScopeProvider(
         declaredMemberScopeCache.getOrPut(classSymbol) {
             val firScope = classSymbol.withFirForScope {
                 analysisSession.rootModuleSession.declaredMemberScope(it)
-            } ?: return@getOrPut KtFirEmptyScope(token)
+            } ?: return@getOrPut getEmptyScope()
 
             firScopeStorage.register(firScope)
 
@@ -118,6 +118,10 @@ internal class KtFirScopeProvider(
 
     override fun getCompositeScope(subScopes: List<KtScope>): KtScope = withValidityAssertion {
         KtFirCompositeScope(subScopes, token)
+    }
+
+    override fun getEmptyScope(): KtScope = withValidityAssertion {
+        KtFirEmptyScope(token)
     }
 
     override fun getTypeScope(type: KtType): KtScope? {

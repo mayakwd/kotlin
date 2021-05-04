@@ -20,6 +20,7 @@ abstract class KtScopeProvider : KtAnalysisSessionComponent() {
     abstract fun getFileScope(fileSymbol: KtFileSymbol): KtScope
     abstract fun getPackageScope(packageSymbol: KtPackageSymbol): KtScope
     abstract fun getCompositeScope(subScopes: List<KtScope>): KtScope
+    abstract fun getEmptyScope(): KtScope
 
     abstract fun getTypeScope(type: KtType): KtScope?
 
@@ -53,6 +54,9 @@ interface KtScopeProviderMixIn : KtAnalysisSessionMixIn {
 
     fun KtFile.getScopeContextForFile(): KtScopeContext =
         analysisSession.scopeProvider.getScopeContextForPosition(this, this)
+
+    fun getEmptyScope(): KtScope =
+        analysisSession.scopeProvider.getEmptyScope()
 }
 
 data class KtScopeContext(val scope: KtScope, val implicitReceiversTypes: List<KtType>)
