@@ -55,8 +55,8 @@ internal class KtFirScopeProvider(
     private val firResolveState by weakRef(firResolveState)
     private val firScopeStorage = FirScopeRegistry()
 
-    private val memberScopeCache = IdentityHashMap<KtSymbolWithMembers, KtFirMemberScope>()
-    private val declaredMemberScopeCache = IdentityHashMap<KtSymbolWithMembers, KtDeclaredMemberScope>()
+    private val memberScopeCache = IdentityHashMap<KtSymbolWithMembers, KtScope>()
+    private val declaredMemberScopeCache = IdentityHashMap<KtSymbolWithMembers, KtScope>()
     private val fileScopeCache = IdentityHashMap<KtFileSymbol, KtDeclarationScope<KtSymbolWithDeclarations>>()
     private val packageMemberScopeCache = IdentityHashMap<KtPackageSymbol, KtFirPackageScope>()
 
@@ -88,7 +88,7 @@ internal class KtFirScopeProvider(
         }
     }
 
-    override fun getDeclaredMemberScope(classSymbol: KtSymbolWithMembers): KtDeclaredMemberScope = withValidityAssertion {
+    override fun getDeclaredMemberScope(classSymbol: KtSymbolWithMembers): KtScope = withValidityAssertion {
         declaredMemberScopeCache.getOrPut(classSymbol) {
             val firScope = classSymbol.withFirForScope {
                 analysisSession.rootModuleSession.declaredMemberScope(it)
@@ -96,7 +96,7 @@ internal class KtFirScopeProvider(
 
             firScopeStorage.register(firScope)
 
-            KtFirDeclaredMemberScope(classSymbol, firScope, token, builder)
+            KtFirDeclaredMemberScope(firScope, token, builder)
         }
     }
 

@@ -7,7 +7,6 @@ package org.jetbrains.kotlin.idea.frontend.api.fir.scopes
 
 import org.jetbrains.kotlin.idea.frontend.api.tokens.ValidityToken
 import org.jetbrains.kotlin.idea.frontend.api.ValidityTokenOwner
-import org.jetbrains.kotlin.idea.frontend.api.scopes.KtDeclaredMemberScope
 import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScope
 import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScopeNameFilter
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtCallableSymbol
@@ -16,7 +15,7 @@ import org.jetbrains.kotlin.idea.frontend.api.symbols.KtConstructorSymbol
 import org.jetbrains.kotlin.idea.frontend.api.symbols.markers.KtSymbolWithMembers
 import org.jetbrains.kotlin.name.Name
 
-internal class KtFirEmptyMemberScope(override val owner: KtSymbolWithMembers) : KtScope, KtDeclaredMemberScope, ValidityTokenOwner {
+internal class KtFirEmptyMemberScope(val owner: KtSymbolWithMembers) : KtScope, ValidityTokenOwner {
     override fun getCallableNames(): Set<Name> = emptySet()
 
     override fun getClassifierNames(): Set<Name> = emptySet()
