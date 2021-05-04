@@ -55,7 +55,7 @@ internal class KtFirScopeProvider(
     private val firResolveState by weakRef(firResolveState)
     private val firScopeStorage = FirScopeRegistry()
 
-    private val memberScopeCache = IdentityHashMap<KtSymbolWithMembers, KtMemberScope>()
+    private val memberScopeCache = IdentityHashMap<KtSymbolWithMembers, KtFirMemberScope>()
     private val declaredMemberScopeCache = IdentityHashMap<KtSymbolWithMembers, KtDeclaredMemberScope>()
     private val fileScopeCache = IdentityHashMap<KtFileSymbol, KtDeclarationScope<KtSymbolWithDeclarations>>()
     private val packageMemberScopeCache = IdentityHashMap<KtPackageSymbol, KtFirPackageScope>()
@@ -71,7 +71,7 @@ internal class KtFirScopeProvider(
         else -> error { "Unknown KtSymbolWithDeclarations implementation ${this::class.qualifiedName}" }
     }
 
-    override fun getMemberScope(classSymbol: KtSymbolWithMembers): KtMemberScope = withValidityAssertion {
+    override fun getMemberScope(classSymbol: KtSymbolWithMembers): KtScope = withValidityAssertion {
         memberScopeCache.getOrPut(classSymbol) {
 
             val firScope = classSymbol.withFirForScope { fir ->
