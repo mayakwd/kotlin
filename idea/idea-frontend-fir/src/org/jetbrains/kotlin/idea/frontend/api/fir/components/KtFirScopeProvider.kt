@@ -32,10 +32,8 @@ import org.jetbrains.kotlin.idea.frontend.api.fir.symbols.KtFirNamedClassOrObjec
 import org.jetbrains.kotlin.idea.frontend.api.fir.types.KtFirType
 import org.jetbrains.kotlin.idea.frontend.api.fir.utils.weakRef
 import org.jetbrains.kotlin.idea.frontend.api.scopes.*
-import org.jetbrains.kotlin.idea.frontend.api.symbols.KtClassOrObjectSymbol
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtFileSymbol
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtPackageSymbol
-import org.jetbrains.kotlin.idea.frontend.api.symbols.markers.KtSymbolWithDeclarations
 import org.jetbrains.kotlin.idea.frontend.api.symbols.markers.KtSymbolWithMembers
 import org.jetbrains.kotlin.idea.frontend.api.types.KtType
 import org.jetbrains.kotlin.idea.frontend.api.withValidityAssertion
@@ -81,7 +79,7 @@ internal class KtFirScopeProvider(
                     ScopeSession(),
                     withForcedTypeCalculator = false
                 )
-            } ?: return@getOrPut KtFirEmptyMemberScope(classSymbol)
+            } ?: return@getOrPut KtFirEmptyScope(token)
 
             firScopeStorage.register(firScope)
             KtFirMemberScope(classSymbol, firScope, token, builder)
@@ -92,7 +90,7 @@ internal class KtFirScopeProvider(
         declaredMemberScopeCache.getOrPut(classSymbol) {
             val firScope = classSymbol.withFirForScope {
                 analysisSession.rootModuleSession.declaredMemberScope(it)
-            } ?: return@getOrPut KtFirEmptyMemberScope(classSymbol)
+            } ?: return@getOrPut KtFirEmptyScope(token)
 
             firScopeStorage.register(firScope)
 
