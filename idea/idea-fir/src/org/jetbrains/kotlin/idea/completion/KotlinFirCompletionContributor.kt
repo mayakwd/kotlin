@@ -18,7 +18,6 @@ import org.jetbrains.kotlin.idea.frontend.api.InvalidWayOfUsingAnalysisSession
 import org.jetbrains.kotlin.idea.frontend.api.KtAnalysisSession
 import org.jetbrains.kotlin.idea.frontend.api.components.KtScopeContext
 import org.jetbrains.kotlin.idea.frontend.api.analyseInFakeAnalysisSession
-import org.jetbrains.kotlin.idea.frontend.api.scopes.KtCompositeScope
 import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScope
 import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScopeNameFilter
 import org.jetbrains.kotlin.idea.frontend.api.symbols.*
@@ -162,11 +161,11 @@ private class KotlinCommonCompletionProvider(
             }
 
             when {
-                nameExpression.parent is KtUserType -> collectTypesCompletion(result, scopesContext.scopes, expectedType, visibilityChecker)
+                nameExpression.parent is KtUserType -> collectTypesCompletion(result, scopesContext.scope, expectedType, visibilityChecker)
                 explicitReceiver != null -> {
                     collectDotCompletion(
                         result,
-                        scopesContext.scopes,
+                        scopesContext.scope,
                         explicitReceiver,
                         expectedType,
                         extensionChecker,
@@ -200,7 +199,7 @@ private class KotlinCommonCompletionProvider(
 
     private fun KtAnalysisSession.collectDotCompletion(
         result: CompletionResultSet,
-        implicitScopes: KtCompositeScope,
+        implicitScopes: KtScope,
         explicitReceiver: KtExpression,
         expectedType: KtType?,
         extensionChecker: ExtensionApplicabilityChecker,
@@ -267,7 +266,7 @@ private class KotlinCommonCompletionProvider(
             .filterNot { it.isExtension }
             .filter { visibilityChecker.isVisible(it) }
 
-    private fun KtCompositeScope.collectSuitableExtensions(
+    private fun KtScope.collectSuitableExtensions(
         hasSuitableExtensionReceiver: ExtensionApplicabilityChecker,
         visibilityChecker: CompletionVisibilityChecker,
     ): Sequence<KtCallableSymbol> =

@@ -118,7 +118,7 @@ internal class KtFirScopeProvider(
         }
     }
 
-    override fun getCompositeScope(subScopes: List<KtScope>): KtCompositeScope = withValidityAssertion {
+    override fun getCompositeScope(subScopes: List<KtScope>): KtScope = withValidityAssertion {
         KtFirCompositeScope(subScopes, token)
     }
 

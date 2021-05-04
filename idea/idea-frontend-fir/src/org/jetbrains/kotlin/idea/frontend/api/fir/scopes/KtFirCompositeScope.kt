@@ -7,7 +7,6 @@ package org.jetbrains.kotlin.idea.frontend.api.fir.scopes
 
 import org.jetbrains.kotlin.idea.frontend.api.ValidityTokenOwner
 import org.jetbrains.kotlin.idea.frontend.api.tokens.ValidityToken
-import org.jetbrains.kotlin.idea.frontend.api.scopes.KtCompositeScope
 import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScope
 import org.jetbrains.kotlin.idea.frontend.api.scopes.KtScopeNameFilter
 import org.jetbrains.kotlin.idea.frontend.api.symbols.KtCallableSymbol
@@ -20,10 +19,10 @@ import org.jetbrains.kotlin.name.Name
 
 // todo do we need caches here?
 @OptIn(ExperimentalStdlibApi::class)
-class KtFirCompositeScope(
-    override val subScopes: List<KtScope>,
+internal class KtFirCompositeScope(
+    private val subScopes: List<KtScope>,
     override val token: ValidityToken
-) : KtCompositeScope, ValidityTokenOwner {
+) : KtScope, ValidityTokenOwner {
     override fun getAllNames(): Set<Name> = withValidityAssertion {
         buildSet {
             subScopes.flatMapTo(this) { it.getAllNames() }
