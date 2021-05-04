@@ -41,9 +41,6 @@ interface KtScope : ValidityTokenOwner {
 
 typealias KtScopeNameFilter = (Name) -> Boolean
 
-interface KtDeclaredMemberScope : KtDeclarationScope<KtSymbolWithMembers> {
-    override val owner: KtSymbolWithMembers
-}
 
 interface KtDeclarationScope<out T : KtSymbolWithDeclarations> : KtScope {
     val owner: T
